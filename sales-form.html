@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Sale</title>
+  <style>
+    body { font-family: Arial; max-width: 500px; margin: auto; padding-top: 40px; }
+    input, button { width: 100%; padding: 12px; margin: 10px 0; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h2>Add a Sale</h2>
+  <input id="agent" placeholder="Agent Name">
+  <input id="amount" placeholder="Sale Amount" type="number">
+  <button onclick="submitSale()">Submit Sale</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    // TODO: ADD YOUR FIREBASE CONFIG HERE
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOMfHc7LAXfddxDB6k8rOFMRO5ViMjuq0",
+      authDomain: "home-sales-board.firebaseapp.com",
+      projectId: "home-sales-board",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function submitSale() {
+      const agent = document.getElementById("agent").value;
+      const amount = Number(document.getElementById("amount").value);
+
+      if (!agent || !amount) return alert("Please fill all fields");
+
+      await addDoc(collection(db, "sales"), {
+        agent,
+        amount,
+        created: serverTimestamp(),
+      });
+
+      alert("Sale added!");
+      document.getElementById("agent").value = "";
+      document.getElementById("amount").value = "";
+    }
+  </script>
+</body>
+</html>
