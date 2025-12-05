@@ -1,48 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Add Sale</title>
-  <style>
-    body { font-family: Arial; max-width: 500px; margin: auto; padding-top: 40px; }
-    input, button { width: 100%; padding: 12px; margin: 10px 0; font-size: 18px; }
-  </style>
+<meta charset="UTF-8">
+<title>Add Sale</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2>Add a Sale</h2>
-  <input id="agent" placeholder="Agent Name">
-  <input id="amount" placeholder="Sale Amount" type="number">
-  <button onclick="submitSale()">Submit Sale</button>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-    import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-
-    // TODO: ADD YOUR FIREBASE CONFIG HERE
-    const firebaseConfig = {
-      apiKey: "AIzaSyDOMfHc7LAXfddxDB6k8rOFMRO5ViMjuq0",
-      authDomain: "home-sales-board.firebaseapp.com",
-      projectId: "home-sales-board",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function submitSale() {
-      const agent = document.getElementById("agent").value;
-      const amount = Number(document.getElementById("amount").value);
-
-      if (!agent || !amount) return alert("Please fill all fields");
-
-      await addDoc(collection(db, "sales"), {
-        agent,
-        amount,
-        created: serverTimestamp(),
-      });
-
-      alert("Sale added!");
-      document.getElementById("agent").value = "";
-      document.getElementById("amount").value = "";
-    }
-  </script>
+<h1>Submit Sale</h1>
+<form id="saleForm">
+<label>Agent <input id="agent"></label><br>
+<label>Upfront <input id="upfront" type="number"></label><br>
+label>Monitoring <input id="monitoring" type="number"></label><br>
+<label>Notes <input id="notes"></label><br>
+<button type="submit">Submit</button>
+</form>
+<div id="status"></div>
+<script type="module" src="js/form.js"></script>
 </body>
 </html>
